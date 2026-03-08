@@ -1,176 +1,34 @@
-# Satisfactory Save Sync
+# 🏭 Modded Satisfactory Auto-Sync
 
-Too broke for server cost like us? -> Simple way to **share one Satisfactory world between multiple PCs** using **GitHub Desktop**.
-
-No Git knowledge required.  
-Just **Pull before playing** and **Push after playing**.
-
-The repo automatically **copies saves to the correct game folder** and creates **timestamped backups with PC names**.
+A fully automatic way to share one modded Satisfactory world with your friends. 
+If someone is already playing, the system will lock the world and warn you!
 
 ---
 
-# Requirements
+## 🛠️ First-Time Setup (Takes 2 Minutes)
 
-- Satisfactory
-- GitHub account
-- GitHub Desktop
+1. **Install GitHub Desktop:** [Download here](https://desktop.github.com/). Sign in and clone this repository.
+2. **Find your Steam ID:** Open your Steam Profile in a browser. Copy the 17-digit number at the end of the URL.
+3. **Configure:** * Open this folder. 
+   * Duplicate the file `config.template.ps1` and rename it to `config.ps1`.
+   * Open `config.ps1` and paste your SteamID and a PC Name.
 
----
-
-# Setup (2 minutes)
-
-### 1. Install GitHub Desktop
-
-Download and install:
-
-https://desktop.github.com
+**You are done! You never have to do these steps again.**
 
 ---
 
-### 2. Clone this repository
+## 🎮 How to Play
 
-Open **GitHub Desktop**
+Whenever you want to play, **do not** open GitHub Desktop or the Mod Manager directly. 
 
-```
+Instead, double-click:
+### 🚀 `Play_Modded.bat`
 
-File → Clone Repository → URL
+A black window will open. Here is what it does automatically:
+1. **Checks the server:** If a friend is already playing (or forgot to sync), it screams 🛑 **STOP!** and tells you who has the lock. Contact them or just join via Steam!
+2. **Locks the world:** If it's free, it locks the server so nobody else can join.
+3. **Downloads the save:** It grabs the newest world and puts it in your game folder.
+4. **Opens the Mod Manager:** Click "Launch" inside SMM like normal. 
+5. **Uploads when you quit:** When you close Satisfactory, the black window detects it, backs up your new save, uploads it, and unlocks the server for the next person!
 
-```
-
-Clone the repo to your PC.
-
----
-
-### 3. Configure once
-
-Open:
-
-```
-
-config.ps1
-
-````
-
-Enter your information:
-
-```powershell
-$SteamID="YOUR_STEAM_ID"
-$PCNAME="YOUR_PC_NAME"
-````
-
-Example:
-
-```powershell
-$SteamID="76561198012345678"
-$PCNAME="DAVE"
-```
-
----
-
-### 4. Install automation
-
-Run once:
-
-```
-install.ps1
-```
-
-This installs the automatic sync scripts.
-
-Done.
-
----
-
-# Playing Workflow
-
-### Before playing
-
-Open **GitHub Desktop**
-
-```
-Fetch origin
-Pull
-```
-
-The newest save is automatically copied into your Satisfactory save folder.
-
-Start the game and play.
-
----
-
-### After playing
-
-Open **GitHub Desktop**
-
-```
-Commit to main
-Push origin
-```
-
-Your newest save is automatically uploaded.
-
----
-
-# Important Rule
-
-⚠️ **Only one person should play at a time**
-
-Always:
-
-```
-Pull before playing
-Push after playing
-```
-
----
-
-# Save File History
-
-Every time someone pulls a save, a **timestamped backup** is created automatically.
-
-Example:
-
-```
-world_RAMON-PC_2026-03-08_19-22-01.sav
-world_TOBI-PC_2026-03-09_00-05-44.sav
-world_JONAS-PC_2026-03-09_03-11-20.sav
-```
-
-This makes it easy to see **who played last** and prevents losing progress.
-
----
-
-# Finding your SteamID
-
-1. Open Steam
-2. Go to your Profile
-3. Copy the number from the URL
-
-Example:
-
-```
-76561198012345678
-```
-
----
-
-# Repository Structure
-
-```
-repo/
-│
-├─ save/
-│   └─ world.sav
-│
-├─ config.ps1
-├─ install.ps1
-└─ hooks/
-```
-
----
-
-# License
-
-MIT
-
-```
+⚠️ **CRITICAL RULE:** Never close the black sync window while playing, or your save won't upload & do not manually pull or push or fetch or anything!
