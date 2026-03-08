@@ -106,13 +106,26 @@ if ($latestSave) { Copy-Item $latestSave.FullName $repoSave -Force }
 
 Clear-Content -Path $lockFile
 
+# Stage files for Git
 git -C $repoPath add system/save/world.sav system/lock.txt
+
+# Base commit message
+$commitMessage = "🔓 UNLOCKED: $PCNAME saved the world"
+
+# Check if Modpack was updated
 if (Test-Path $modpackFile) {
+    # Check if Git sees changes in the file
+    $modStatus = git -C $repoPath status --porcelain modpack.smmprofile
     git -C $repoPath add modpack.smmprofile
+    
+    if (![string]::IsNullOrWhiteSpace($modStatus)) {
+        Write-Host "📦 Modpack changes detected! Tagging the Git commit..." -ForegroundColor Yellow
+        $commitMessage = "🔓 UNLOCKED: $PCNAME saved the world 📦 (+ MODPACK UPDATED)"
+    }
 }
 
-git -C $repoPath commit -m "🔓 UNLOCKED: $PCNAME saved the world"
-git -C $repoPath push origin main
+git -C $repoPath commit -m "$commitMessage" --quiet
+git -C $repoPath push origin main --quiet
 
 Write-Host "✅ Sync complete! Server is free for others. Safe to close." -ForegroundColor Green
 Pause
