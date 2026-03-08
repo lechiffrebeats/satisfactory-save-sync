@@ -17,6 +17,10 @@
         "version": ">=0.0.0",
         "enabled": true
       },
+      "Factory_Prop_Mod": {
+        "version": ">=0.0.0",
+        "enabled": true
+      },
       "FicsitFarming": {
         "version": ">=0.0.0",
         "enabled": true
@@ -42,7 +46,7 @@
         "enabled": true
       }
     },
-    "name": "newMilan",
+    "name": "modpack",
     "required_targets": [
       "Windows"
     ]
@@ -120,6 +124,24 @@
           }
         },
         "version": "1.3.2"
+      },
+      "Factory_Prop_Mod": {
+        "dependencies": null,
+        "targets": {
+          "LinuxServer": {
+            "hash": "7071135251e5433fbe8ac1909ad9d35637f98401d96b4250f3e3b58e7b0667f2",
+            "link": "https://api.ficsit.app/v1/version/2ftF2XsGCwWm1X/LinuxServer/download"
+          },
+          "Windows": {
+            "hash": "074f8c276310a387a6b1de9cdfe9f4e97b98a5449244a6f1e84f7abfa7668de3",
+            "link": "https://api.ficsit.app/v1/version/2ftF2XsGCwWm1X/Windows/download"
+          },
+          "WindowsServer": {
+            "hash": "a0d40ef7fb162525875da573a7d268ea440e85151a7d458d85830c3ff1e46060",
+            "link": "https://api.ficsit.app/v1/version/2ftF2XsGCwWm1X/WindowsServer/download"
+          }
+        },
+        "version": "2.6.4"
       },
       "FicsitFarming": {
         "dependencies": null,
@@ -202,6 +224,24 @@
           }
         },
         "version": "1.1.8"
+      },
+      "ModUpdateNotifier": {
+        "dependencies": null,
+        "targets": {
+          "LinuxServer": {
+            "hash": "a0ab9929d692b17f9a1b6f44036342649c54f42db3d35e15ca7349076a6fcb40",
+            "link": "https://api.ficsit.app/v1/version/EPb5E2XpTJbzmx/LinuxServer/download"
+          },
+          "Windows": {
+            "hash": "bea43d9f844686b8b0e6599391a8c0bebab0308598f0eab99ab3a6b90b6ff75e",
+            "link": "https://api.ficsit.app/v1/version/EPb5E2XpTJbzmx/Windows/download"
+          },
+          "WindowsServer": {
+            "hash": "fbf3cea57241eebd6321a40a2fd96384fd72a390b0894392f3ad5ccf4f19515b",
+            "link": "https://api.ficsit.app/v1/version/EPb5E2XpTJbzmx/WindowsServer/download"
+          }
+        },
+        "version": "2.4.5"
       },
       "ModularUI": {
         "dependencies": null,

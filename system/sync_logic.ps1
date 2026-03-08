@@ -24,7 +24,10 @@ $saveFolder = "$env:LOCALAPPDATA\FactoryGame\Saved\SaveGames\$SteamID"
 
 # 2. Check Server Status
 Write-Host "Checking server status..." -ForegroundColor Cyan
-git -C $repoPath pull origin main
+
+# We capture the output of the pull to see what changed!
+$pullOutput = git -C $repoPath pull origin main | Out-String
+Write-Host $pullOutput
 
 $activePlayer = Get-Content $lockFile -Raw
 if (![string]::IsNullOrWhiteSpace($activePlayer)) {
@@ -59,12 +62,20 @@ if (Test-Path $repoSave) {
     Copy-Item $repoSave $backupFile -Force 
 }
 
-# 5. Modpack Check
-if (Test-Path $modpackFile) {
+# 5. Smart Modpack Check
+if ($pullOutput -match "modpack.smmprofile") {
     Write-Host ""
-    Write-Host "📦 MODPACK DETECTED!" -ForegroundColor Yellow
-    Write-Host " If mods were updated, please Import 'modpack.smmprofile' inside SMM before playing." -ForegroundColor White
+    Write-Host "==========================================================" -ForegroundColor Red
+    Write-Host " 🚨 NEW MODPACK UPDATE DETECTED! 🚨" -ForegroundColor Yellow
+    Write-Host "==========================================================" -ForegroundColor Red
+    Write-Host " A friend has changed the server mods!" -ForegroundColor White
+    Write-Host " 1. Click IMPORT in the Mod Manager." -ForegroundColor Yellow
+    Write-Host " 2. Select 'modpack.smmprofile' from the sync folder." -ForegroundColor Yellow
+    Write-Host " 3. Wait for the download, THEN launch the game." -ForegroundColor Yellow
+    Write-Host "==========================================================" -ForegroundColor Red
     Write-Host ""
+    Write-Host "Press ENTER to open the Mod Manager..." -ForegroundColor Cyan
+    Pause
 }
 
 # 6. Launch Mod Manager
