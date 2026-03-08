@@ -5,11 +5,19 @@ $repoSave = "$PSScriptRoot\save\world.sav"
 
 # 1. Check Config
 if (-not (Test-Path $configPath)) {
-    Write-Host "ERROR: config.ps1 not found! Please duplicate config.template.ps1 and add your info." -ForegroundColor Red
+    Write-Host "ERROR: config.ps1 not found in the main folder!" -ForegroundColor Red
     Pause
     exit
 }
 . $configPath
+
+# Failsafe if config is 0 KB
+if ([string]::IsNullOrWhiteSpace($PCNAME) -or [string]::IsNullOrWhiteSpace($SteamID)) {
+    Write-Host "ERROR: Your config.ps1 is empty! Please open it and add your SteamID and PCNAME." -ForegroundColor Red
+    Pause
+    exit
+}
+
 $saveFolder = "$env:LOCALAPPDATA\FactoryGame\Saved\SaveGames\$SteamID"
 
 # 2. Check Server Status
@@ -33,7 +41,7 @@ if (![string]::IsNullOrWhiteSpace($activePlayer)) {
 # 3. Lock the World
 Write-Host "World is free! Locking the save for $PCNAME..." -ForegroundColor Green
 Set-Content -Path $lockFile -Value $PCNAME
-git -C $repoPath add lock.txt
+git -C $repoPath add system/lock.txt
 git -C $repoPath commit -m "🔒 LOCKED: $PCNAME is playing" --quiet
 git -C $repoPath push origin main --quiet
 
@@ -67,10 +75,10 @@ while (Get-Process -Name "FactoryGame*" -ErrorAction SilentlyContinue) {
 # 7. Upload & Unlock
 Write-Host "Game closed! Uploading your new save..." -ForegroundColor Cyan
 $latestSave = Get-ChildItem $saveFolder\*.sav | Sort-Object LastWriteTime -Descending | Select-Object -First 1
-Copy-Item $latestSave.FullName $repoSave -Force
+if ($latestSave) { Copy-Item $latestSave.FullName $repoSave -Force }
 
 Clear-Content -Path $lockFile
-git -C $repoPath add "save/world.sav" lock.txt
+git -C $repoPath add system/save/world.sav system/lock.txt
 git -C $repoPath commit -m "🔓 UNLOCKED: $PCNAME saved the world" --quiet
 git -C $repoPath push origin main --quiet
 
