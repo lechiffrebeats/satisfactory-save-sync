@@ -1,12 +1,12 @@
 # 🏭 Modded Satisfactory Auto-Sync
 
 A fully automatic way to share one modded Satisfactory world with your friends. 
-No dedicated server needed! The system handles all the downloading, uploading, and mod syncing for you.
+No dedicated server needed! The system handles all the downloading, uploading, cloud backups, and mod syncing for you.
 
 ---
 
 ## ⚠️ THE GOLDEN RULE
-**Only ONE person can play at a time!** Our system will check if the server is free. If someone else is playing, it will stop and warn you. Do not bypass the lock, or you will split the timeline and ruin the save! Also this git is heavily vibecoded, use at your own risk!
+**Only ONE person can play at a time!** Our system checks if the server is free. If someone else is playing, it will stop and warn you. Do not bypass the lock, or you will split the timeline and ruin the save!
 
 ---
 
@@ -16,7 +16,7 @@ You only need to do this once!
 
 ### 1. Install Required Software
 1. **GitHub Desktop:** [Download Here](https://desktop.github.com/). Sign in and clone this repository.
-2. **Git for Windows:** [Download Here](https://gitforwindows.org/). Just run the installer and click "Next" on everything. (This makes the background script work!).
+2. **Git for Windows:** [Download Here](https://gitforwindows.org/). Run the installer and click "Next" on everything. (This makes the background script work!).
 
 ### 2. Configure Your Profile
 1. Open this repository folder on your computer.
@@ -54,6 +54,30 @@ Want to add a new mod to the server? It's completely automatic!
 
 1. Open SMM and install your new mods.
 2. Click the **Export** button in SMM.
-3. Save the file as exactly `modpack.smm` and overwrite the old one in this repository folder.
+3. Save the file as exactly `modpack.smmprofile` and overwrite the old one in this repository folder.
 4. Double-click `Play_Modded.bat` to play the game normally. 
-5. When you quit, the script will automatically upload the new `modpack.smm` to GitHub so your friends get the new mods next time they play!
+5. When you quit, the script will automatically upload the new `modpack.smmprofile` to GitHub. The next friend to play will get a 🚨 **RED WARNING** 🚨 telling them to import your new changes!
+
+---
+
+## 🌍 Want to use this for your own friend group?
+
+Do not clone this repository directly, or you won't have permission to upload your saves! Instead, you need to create your own private copy. 
+
+**Only ONE person (the Group Host) needs to do this:**
+
+### 1. Create your own Cloud Server
+1. Scroll to the top of this GitHub page and click the green **Use this template** button.
+2. Click **Create a new repository**.
+3. Give it a name (e.g., `Jonas-Satisfactory-Server`).
+4. Set it to **Private** (so only your friends can see it).
+5. Click **Create repository**. 
+
+### 2. Invite your friends
+You now have your own private cloud server! But your friends need permission to access it.
+1. On your new repository page, click **Settings** ⚙️.
+2. Click **Collaborators** on the left menu.
+3. Click **Add people** and invite your friends using their GitHub usernames.
+
+### 3. Start Playing!
+Now, you and your friends just open **GitHub Desktop**, click **File → Clone Repository**, and select YOUR new private repository from the list. Follow the setup instructions above, and you are good to go!
