@@ -37,5 +37,3 @@ turn GitHub into a free, automatic **Async Server** for your friend group.
 ### 🌍 Use as Template
 
 Want your own private server? Click the green **"Use this template"** button at the top of this GitHub page to create your own copy!
-
-**Would you like me to generate a 30-second "Industrial Lo-Fi" track to use as background music for your Reddit announcement?**
