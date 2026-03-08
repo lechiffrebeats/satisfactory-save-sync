@@ -1,2 +1,0 @@
-$SteamID="76561198401247652"
-$PCNAME="lechi"
