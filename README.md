@@ -44,6 +44,7 @@ A black window will open. Here is what happens automatically:
 * **Downloads:** It grabs the newest save file and puts it in your game folder.
 * **Launches:** It opens SMM or Steam automatically. 
 * **Uploads:** When you close Satisfactory, the black window detects it, backs up your new save, uploads it to the cloud, and unlocks the server!
+* ![shortly wait](image.png)
 
 ⚠️ **CRITICAL:** Never close the black sync window while playing, or your save won't upload!
 
