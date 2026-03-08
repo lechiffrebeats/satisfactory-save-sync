@@ -1,109 +1,176 @@
-# Satisfactory Save Sync (GitHub Desktop)
+# Satisfactory Save Sync
 
-Simple version control for our shared **Satisfactory** save file so we can all play the same world.
+Simple way to **share one Satisfactory world between multiple PCs** using **GitHub Desktop**.
 
-We use **GitHub + GitHub Desktop** to upload and download the newest `.sav` file.
+No Git knowledge required.  
+Just **Pull before playing** and **Push after playing**.
 
-This guide is for people who **do not know Git**.
-
----
-
-# One-Time Setup
-
-1. Install **GitHub Desktop**
-2. Clone this repository
-3. Open the repository folder on your PC
+The repo automatically **copies saves to the correct game folder** and creates **timestamped backups with PC names**.
 
 ---
 
-# Before You Start Playing
+# Requirements
 
-⚠️ Always download the newest save first.
-
-1. Open **GitHub Desktop**
-2. Click **Fetch origin**
-3. Click **Pull**
-
-Now you have the newest save.
-
-Copy the newest `.sav` file into your Satisfactory save folder:
-
-```
-
-C:\Users<yourname>\AppData\Local\FactoryGame\Saved\SaveGames<your-steam-id>\
-
-```
-
-Then start **Satisfactory** and play.
+- Satisfactory
+- GitHub account
+- GitHub Desktop
 
 ---
 
-# After You Finished Playing
+# Setup (2 minutes)
 
-1. Copy the newest `.sav` file from your Satisfactory save folder back into the **repository folder**
+### 1. Install GitHub Desktop
 
-2. Open **GitHub Desktop**
+Download and install:
 
-3. Write a commit message like:
+https://desktop.github.com
 
-```
+---
 
-Played 08.03 – built steel factory
+### 2. Clone this repository
 
-```
-
-4. Click:
+Open **GitHub Desktop**
 
 ```
 
+File → Clone Repository → URL
+
+```
+
+Clone the repo to your PC.
+
+---
+
+### 3. Configure once
+
+Open:
+
+```
+
+config.ps1
+
+````
+
+Enter your information:
+
+```powershell
+$SteamID="YOUR_STEAM_ID"
+$PCNAME="YOUR_PC_NAME"
+````
+
+Example:
+
+```powershell
+$SteamID="76561198012345678"
+$PCNAME="DAVE"
+```
+
+---
+
+### 4. Install automation
+
+Run once:
+
+```
+install.ps1
+```
+
+This installs the automatic sync scripts.
+
+Done.
+
+---
+
+# Playing Workflow
+
+### Before playing
+
+Open **GitHub Desktop**
+
+```
+Fetch origin
+Pull
+```
+
+The newest save is automatically copied into your Satisfactory save folder.
+
+Start the game and play.
+
+---
+
+### After playing
+
+Open **GitHub Desktop**
+
+```
 Commit to main
 Push origin
-
 ```
 
-Now the new save is uploaded and the next player can download it.
+Your newest save is automatically uploaded.
 
 ---
 
 # Important Rule
 
-⚠️ Only **one person plays at a time**.
+⚠️ **Only one person should play at a time**
 
-Always do this:
-
-Before playing:
-```
-
-Fetch → Pull
+Always:
 
 ```
-
-After playing:
+Pull before playing
+Push after playing
 ```
 
-Commit → Push
+---
+
+# Save File History
+
+Every time someone pulls a save, a **timestamped backup** is created automatically.
+
+Example:
 
 ```
+world_RAMON-PC_2026-03-08_19-22-01.sav
+world_TOBI-PC_2026-03-09_00-05-44.sav
+world_JONAS-PC_2026-03-09_03-11-20.sav
+```
 
-Otherwise someone might overwrite another player's progress.
+This makes it easy to see **who played last** and prevents losing progress.
+
+---
+
+# Finding your SteamID
+
+1. Open Steam
+2. Go to your Profile
+3. Copy the number from the URL
+
+Example:
+
+```
+76561198012345678
+```
 
 ---
 
 # Repository Structure
 
 ```
-
 repo/
 │
-├─ saves/
+├─ save/
 │   └─ world.sav
 │
-└─ README.md
-
+├─ config.ps1
+├─ install.ps1
+└─ hooks/
 ```
 
 ---
 
-# Recommended
+# License
 
-Enable **Auto Save / Backup** in Satisfactory so we always have backups.
+MIT
+
+```
