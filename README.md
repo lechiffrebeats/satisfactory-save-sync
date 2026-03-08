@@ -6,7 +6,7 @@ No dedicated server needed! The system handles all the downloading, uploading, a
 ---
 
 ## ⚠️ THE GOLDEN RULE
-**Only ONE person can play at a time!** Our system will check if the server is free. If someone else is playing, it will stop and warn you. Do not bypass the lock, or you will split the timeline and ruin the save!
+**Only ONE person can play at a time!** Our system will check if the server is free. If someone else is playing, it will stop and warn you. Do not bypass the lock, or you will split the timeline and ruin the save! Also this git is heavily vibecoded, use at your own risk!
 
 ---
 
