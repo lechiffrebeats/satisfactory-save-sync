@@ -6,7 +6,7 @@ turn GitHub into a free, automatic **Async Server** for your friend group.
 
 ### ⚠️ THE GOLDEN RULE
 
-**Only ONE person plays at a time!** The script locks the world to prevent "timeline splits." If it's locked, wait for your friend to finish.
+**Only ONE person plays at a time!** The script locks the world to prevent "timeline splits." If it's locked, wait for your friend to finish or join his session.
 
 ---
 
