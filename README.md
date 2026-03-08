@@ -1,6 +1,6 @@
 # Satisfactory Save Sync
 
-Simple way to **share one Satisfactory world between multiple PCs** using **GitHub Desktop**.
+Too broke for server cost like us? -> Simple way to **share one Satisfactory world between multiple PCs** using **GitHub Desktop**.
 
 No Git knowledge required.  
 Just **Pull before playing** and **Push after playing**.
