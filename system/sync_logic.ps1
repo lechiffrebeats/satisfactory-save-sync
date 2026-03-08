@@ -1,7 +1,7 @@
-$repoPath = "$PSScriptRoot\.."
+$repoPath = $PSScriptRoot
 $configPath = "$repoPath\config.ps1"
-$lockFile = "$PSScriptRoot\lock.txt"
-$repoSave = "$PSScriptRoot\save\world.sav"
+$lockFile = "$repoPath\lock.txt"
+$repoSave = "$repoPath\save\world.sav"
 $modpackFile = "$repoPath\modpack.smm"
 
 # 1. Check Config
@@ -22,7 +22,7 @@ $saveFolder = "$env:LOCALAPPDATA\FactoryGame\Saved\SaveGames\$SteamID"
 
 # 2. Check Server Status
 Write-Host "Checking server status..." -ForegroundColor Cyan
-git -C $repoPath pull origin main --quiet
+git -C $repoPath pull origin main
 
 $activePlayer = Get-Content $lockFile -Raw
 if (![string]::IsNullOrWhiteSpace($activePlayer)) {
@@ -41,15 +41,23 @@ if (![string]::IsNullOrWhiteSpace($activePlayer)) {
 # 3. Lock the World
 Write-Host "World is free! Locking the save for $PCNAME..." -ForegroundColor Green
 Set-Content -Path $lockFile -Value $PCNAME
-git -C $repoPath add system/lock.txt
-git -C $repoPath commit -m "🔒 LOCKED: $PCNAME is playing" --quiet
-git -C $repoPath push origin main --quiet
+git -C $repoPath add lock.txt
+git -C $repoPath commit -m "🔒 LOCKED: $PCNAME is playing"
+git -C $repoPath push origin main
 
 # 4. Download Save
 Write-Host "Downloading the latest save..." -ForegroundColor Cyan
-$timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
-$targetFile = "$saveFolder\world_$PCNAME_$timestamp.sav"
-if (Test-Path $repoSave) { Copy-Item $repoSave $targetFile -Force }
+$targetFile = "$saveFolder\world.sav"
+
+if (Test-Path $repoSave) { 
+    # Copy main save so it always shows up as 'world' in the game menu
+    Copy-Item $repoSave $targetFile -Force 
+    
+    # Keep a timestamped backup
+    $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
+    $backupFile = "$saveFolder\world_$PCNAME_$timestamp.sav"
+    Copy-Item $repoSave $backupFile -Force 
+}
 
 # 5. Modpack Check
 if (Test-Path $modpackFile) {
@@ -88,13 +96,13 @@ if ($latestSave) { Copy-Item $latestSave.FullName $repoSave -Force }
 Clear-Content -Path $lockFile
 
 # Stage the save, the lock, and the modpack (if it exists)
-git -C $repoPath add system/save/world.sav system/lock.txt
+git -C $repoPath add save/world.sav lock.txt
 if (Test-Path $modpackFile) {
     git -C $repoPath add modpack.smm
 }
 
-git -C $repoPath commit -m "🔓 UNLOCKED: $PCNAME saved the world" --quiet
-git -C $repoPath push origin main --quiet
+git -C $repoPath commit -m "🔓 UNLOCKED: $PCNAME saved the world"
+git -C $repoPath push origin main
 
 Write-Host "✅ Sync complete! Server is free for others. Safe to close." -ForegroundColor Green
 Pause
