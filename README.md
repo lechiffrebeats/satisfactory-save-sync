@@ -1,6 +1,6 @@
 # 🏭 Modded Satisfactory Auto-Sync
 
-A fully automatic way to share one modded Satisfactory world with your friends. 
+A fully  automatic way to share one modded Satisfactory world with your friends. 
 No dedicated server needed! The system handles all the downloading, uploading, cloud backups, and mod syncing for you.
 
 ---
