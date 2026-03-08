@@ -33,15 +33,16 @@ You only need to do this once!
 
 ## 🎮 How to Play
 
-Whenever you want to play, **do not** open GitHub Desktop or the Mod Manager directly. 
+Whenever you want to play, **do not** open GitHub Desktop, SMM, or Steam directly. 
 
-Instead, open this folder and double-click:
-### 🚀 `Play_Modded.bat`
+Instead, open this folder and double-click your preferred version:
+* 🚀 **`Play_Vanilla.bat`** (If you want to play without mods).
+* 🚀 **`Play_Modded.bat`** (If you are playing with the group's modpack).
 
 A black window will open. Here is what happens automatically:
 * **Checks & Locks:** It checks if a friend is playing. If it's free, it locks the world for you.
 * **Downloads:** It grabs the newest save file and puts it in your game folder.
-* **Launches:** It opens SMM. Just click "Launch" to start the game.
+* **Launches:** It opens SMM or Steam automatically. 
 * **Uploads:** When you close Satisfactory, the black window detects it, backs up your new save, uploads it to the cloud, and unlocks the server!
 
 ⚠️ **CRITICAL:** Never close the black sync window while playing, or your save won't upload!

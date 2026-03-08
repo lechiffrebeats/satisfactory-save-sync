@@ -1,3 +1,5 @@
+param([string]$Mode = "Modded")
+
 # --- PATH SETUP ---
 $systemPath = $PSScriptRoot
 $repoPath = "$systemPath\.."
@@ -24,8 +26,6 @@ $saveFolder = "$env:LOCALAPPDATA\FactoryGame\Saved\SaveGames\$SteamID"
 
 # 2. Check Server Status
 Write-Host "Checking server status..." -ForegroundColor Cyan
-
-# We capture the output of the pull to see what changed!
 $pullOutput = git -C $repoPath pull origin main | Out-String
 Write-Host $pullOutput
 
@@ -47,23 +47,25 @@ if (![string]::IsNullOrWhiteSpace($activePlayer)) {
 Write-Host "World is free! Locking the save for $PCNAME..." -ForegroundColor Green
 Set-Content -Path $lockFile -Value $PCNAME
 git -C $repoPath add system/lock.txt
-git -C $repoPath commit -m "🔒 LOCKED: $PCNAME is playing"
-git -C $repoPath push origin main
+git -C $repoPath commit -m "🔒 LOCKED: $PCNAME is playing" --quiet
+git -C $repoPath push origin main --quiet
 
 # 4. Download Save
 Write-Host "Downloading the latest save..." -ForegroundColor Cyan
 $targetFile = "$saveFolder\world.sav"
 
 if (Test-Path $repoSave) { 
+    # Copy main save
     Copy-Item $repoSave $targetFile -Force 
     
+    # Keep a timestamped backup locally
     $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
     $backupFile = "$saveFolder\world_$PCNAME_$timestamp.sav"
     Copy-Item $repoSave $backupFile -Force 
 }
 
-# 5. Smart Modpack Check
-if ($pullOutput -match "modpack.smmprofile") {
+# 5. Smart Modpack Check (ONLY IF MODDED)
+if ($Mode -eq "Modded" -and $pullOutput -match "modpack.smmprofile") {
     Write-Host ""
     Write-Host "==========================================================" -ForegroundColor Red
     Write-Host " 🚨 NEW MODPACK UPDATE DETECTED! 🚨" -ForegroundColor Yellow
@@ -78,14 +80,20 @@ if ($pullOutput -match "modpack.smmprofile") {
     Pause
 }
 
-# 6. Launch Mod Manager
-Write-Host "Opening Satisfactory Mod Manager..." -ForegroundColor Magenta
-$smmPath = "$env:LOCALAPPDATA\Programs\Satisfactory Mod Manager\Satisfactory Mod Manager.exe"
-
-if (Test-Path $smmPath) {
-    Start-Process $smmPath
+# 6. Launch Game
+if ($Mode -eq "Vanilla") {
+    Write-Host "Opening Vanilla Satisfactory (Steam)..." -ForegroundColor Magenta
+    Start-Process "steam://rungameid/526870"
+    Write-Host "If you use Epic Games, please launch the game manually now." -ForegroundColor Yellow
 } else {
-    Write-Host "Could not find Mod Manager automatically. Please open it manually now!" -ForegroundColor Yellow
+    Write-Host "Opening Satisfactory Mod Manager..." -ForegroundColor Magenta
+    $smmPath = "$env:LOCALAPPDATA\Programs\Satisfactory Mod Manager\Satisfactory Mod Manager.exe"
+
+    if (Test-Path $smmPath) {
+        Start-Process $smmPath
+    } else {
+        Write-Host "Could not find Mod Manager automatically. Please open it manually now!" -ForegroundColor Yellow
+    }
 }
 
 # 7. Wait for Game
@@ -112,9 +120,8 @@ git -C $repoPath add system/save/world.sav system/lock.txt
 # Base commit message
 $commitMessage = "🔓 UNLOCKED: $PCNAME saved the world"
 
-# Check if Modpack was updated
-if (Test-Path $modpackFile) {
-    # Check if Git sees changes in the file
+# Check if Modpack was updated (ONLY IF MODDED)
+if ($Mode -eq "Modded" -and (Test-Path $modpackFile)) {
     $modStatus = git -C $repoPath status --porcelain modpack.smmprofile
     git -C $repoPath add modpack.smmprofile
     
