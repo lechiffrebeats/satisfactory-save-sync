@@ -1,7 +1,7 @@
-$repoPath = $PSScriptRoot
+$repoPath = "$PSScriptRoot\.."
 $configPath = "$repoPath\config.ps1"
-$lockFile = "$repoPath\lock.txt"
-$repoSave = "$repoPath\save\world.sav"
+$lockFile = "$PSScriptRoot\lock.txt"
+$repoSave = "$PSScriptRoot\save\world.sav"
 
 # 1. Check Config
 if (-not (Test-Path $configPath)) {
