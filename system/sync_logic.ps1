@@ -2,6 +2,7 @@ $repoPath = "$PSScriptRoot\.."
 $configPath = "$repoPath\config.ps1"
 $lockFile = "$PSScriptRoot\lock.txt"
 $repoSave = "$PSScriptRoot\save\world.sav"
+$modpackFile = "$repoPath\modpack.smm"
 
 # 1. Check Config
 if (-not (Test-Path $configPath)) {
@@ -11,7 +12,6 @@ if (-not (Test-Path $configPath)) {
 }
 . $configPath
 
-# Failsafe if config is 0 KB
 if ([string]::IsNullOrWhiteSpace($PCNAME) -or [string]::IsNullOrWhiteSpace($SteamID)) {
     Write-Host "ERROR: Your config.ps1 is empty! Please open it and add your SteamID and PCNAME." -ForegroundColor Red
     Pause
@@ -51,7 +51,15 @@ $timestamp = Get-Date -Format "yyyy-MM-dd_HH-mm-ss"
 $targetFile = "$saveFolder\world_$PCNAME_$timestamp.sav"
 if (Test-Path $repoSave) { Copy-Item $repoSave $targetFile -Force }
 
-# 5. Launch Mod Manager
+# 5. Modpack Check
+if (Test-Path $modpackFile) {
+    Write-Host ""
+    Write-Host "📦 MODPACK DETECTED!" -ForegroundColor Yellow
+    Write-Host " If mods were updated, please Import 'modpack.smm' inside SMM before playing." -ForegroundColor White
+    Write-Host ""
+}
+
+# 6. Launch Mod Manager
 Write-Host "Opening Satisfactory Mod Manager..." -ForegroundColor Magenta
 $smmPath = "$env:LOCALAPPDATA\Programs\Satisfactory Mod Manager\Satisfactory Mod Manager.exe"
 
@@ -61,7 +69,7 @@ if (Test-Path $smmPath) {
     Write-Host "Could not find Mod Manager automatically. Please open it manually now!" -ForegroundColor Yellow
 }
 
-# 6. Wait for Game
+# 7. Wait for Game
 Write-Host "Waiting for you to launch the game... (DO NOT CLOSE THIS WINDOW)" -ForegroundColor Yellow
 while (-not (Get-Process -Name "FactoryGame*" -ErrorAction SilentlyContinue)) {
     Start-Sleep -Seconds 3
@@ -72,13 +80,19 @@ while (Get-Process -Name "FactoryGame*" -ErrorAction SilentlyContinue) {
     Start-Sleep -Seconds 5
 }
 
-# 7. Upload & Unlock
+# 8. Upload & Unlock
 Write-Host "Game closed! Uploading your new save..." -ForegroundColor Cyan
 $latestSave = Get-ChildItem $saveFolder\*.sav | Sort-Object LastWriteTime -Descending | Select-Object -First 1
 if ($latestSave) { Copy-Item $latestSave.FullName $repoSave -Force }
 
 Clear-Content -Path $lockFile
+
+# Stage the save, the lock, and the modpack (if it exists)
 git -C $repoPath add system/save/world.sav system/lock.txt
+if (Test-Path $modpackFile) {
+    git -C $repoPath add modpack.smm
+}
+
 git -C $repoPath commit -m "🔓 UNLOCKED: $PCNAME saved the world" --quiet
 git -C $repoPath push origin main --quiet
 
